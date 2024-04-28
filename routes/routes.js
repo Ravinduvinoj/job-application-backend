@@ -18,6 +18,7 @@ router.post('/temp-register', async (req, res) => {
     let userRole = req.body.userRole;
     let city = req.body.city;
     let address = req.body.address;
+    let companyurl = req.body.companyurl;
 
     const salt1 = await bcrypt.genSalt(10);
 
@@ -39,7 +40,8 @@ router.post('/temp-register', async (req, res) => {
             password: hashedPassword,
             userRole: userRole,
             city: city,
-            address: address
+            address: address,
+            companyurl: companyurl
         })
         const result = await Tuser.save();
         console.log(result);
@@ -280,8 +282,9 @@ router.get('/approve-tempacc/:email', async (req, res) => {
             password: tempUser.password, // You might want to hash the password again if needed
             userRole: tempUser.userRole,
             city: tempUser.city,
-            address: tempUser.address
-            
+            address: tempUser.address,
+            companyurl: tempUser.companyurl
+
 
         });
 

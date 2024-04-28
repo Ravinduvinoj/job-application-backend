@@ -29,6 +29,10 @@ const usersschema = new mongoose.Schema({
     address: {
         type: 'string',
         required: true
+    },
+    companyurl: {
+        type:'string',
+        required: true
     }
 
 },{ collection: 'useraccount' })

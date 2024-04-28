@@ -29,6 +29,10 @@ const tempusersschema = new mongoose.Schema({
     address: {
         type: 'string',
         required: true
+    },
+    companyurl: {
+        type:'string',
+        required: true
     }
 }, { collection: 'tempuseraccount' })
 module.exports = mongoose.model("TempUser", tempusersschema);
