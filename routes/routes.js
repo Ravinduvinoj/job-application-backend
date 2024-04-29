@@ -27,11 +27,19 @@ router.post('/temp-register', async (req, res) => {
 
     const record = await User.findOne({ email: email });
     const record2 = await TempUser.findOne({ email: email });
+    const contactTemp = await TempUser.findOne({ contact: contact });
+    const contactUser = await User.findOne({ contact: contact })
+
 
     if (record || record2) {
         return res.status(400).send({
             message: "email already exists",
         });
+    } else if (contactTemp || contactUser) {
+        return res.status(400).send({
+            message: "contact number already exists",
+        });
+
     } else {
         const Tuser = new TempUser({
             company: company,
@@ -120,6 +128,40 @@ router.post('/logout', (req, res) => {
     })
 })
 
+router.put('/update-user/:email', async (req, res) => {
+    const userEmail = req.params.email;
+    const { company, contact, userRole, city, address, companyurl } = req.body;
+
+    try {
+        // Find the user by email
+        let user = await User.findOne({ email: userEmail });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update the user fields
+        user.company = company || user.company;
+        user.contact = contact || user.contact;
+        user.userRole = userRole || user.userRole;
+        user.city = city || user.city;
+        user.address = address || user.address;
+        user.companyurl = companyurl || user.companyurl;
+
+        // Save the updated user
+        user = await user.save();
+
+        res.status(200).json({
+            message: 'User updated successfully',
+            user: user
+        });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 router.get('/getalltempuser', async (req, res) => {
     try {
 
@@ -180,40 +222,7 @@ router.get('/user-accounts', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-// router.get('/approve-tempacc/:email', async (req, res) => {
-//     const userEmail = req.params.email;
 
-//     try {
-//         // Find the temp user by email
-//         const tempUser = await TempUser.findOne({ email: userEmail });
-
-//         if (!tempUser) {
-//             return res.status(404).send({ message: 'Temp user not found' });
-//         }
-
-//         // Create a new user instance using data from the temp user
-//         const newUser = new User({
-//             company: tempUser.company,
-//             contact: tempUser.contact,
-//             email: tempUser.email,
-//             password: tempUser.password, // You might want to hash the password again if needed
-//             userRole: tempUser.userRole
-//         });
-
-//         // Save the new user to the user account collection
-//         await newUser.save();
-
-//         // Delete the temp user from the temp user collection
-//         await TempUser.findOneAndDelete({ email: userEmail });
-
-//         res.status(200).send({ message: 'User approved and moved to user account collection successfully' });
-//     } catch (error) {
-//         console.error('Error approving temp user:', error);
-//         res.status(500).send({ message: 'Internal server error' });
-//     }
-// });
-
-// Route for approving users by email
 router.post('/approve-user/:email', async (req, res) => {
     const userEmail = req.params.email;
 
@@ -321,7 +330,12 @@ async function sendApprovalEmail(userEmail) {
             from: 'greenjobs2024@gmail.com',
             to: userEmail,
             subject: 'Account Approved',
-            text: 'your Email account has been approved . You can now log in and access our services.',
+            text: `Your email account has been approved . 
+
+
+                    Your email is : ${userEmail} 
+                    
+                    You can now log in and access our services.`,
         });
     } catch (error) {
         console.error('Error sending approval email:', error);
