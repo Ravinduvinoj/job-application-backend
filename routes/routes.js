@@ -19,7 +19,6 @@ router.post('/temp-register', async (req, res) => {
     let city = req.body.city;
     let address = req.body.address;
     let companyurl = req.body.companyurl;
-
     const salt1 = await bcrypt.genSalt(10);
 
     const hashedPassword = await bcrypt.hash(password, salt1);
@@ -247,30 +246,6 @@ router.post('/approve-user/:email', async (req, res) => {
     }
 });
 
-// // Function to send approval email
-// async function sendApprovalEmail(userEmail) {
-//     try {
-//         const transporter = nodemailer.createTransport({
-//             host: 'smtp.gmail.com',
-//             port: 465,
-//             secure: true,
-//             auth: {
-//                 user: 'greenjobs2024@gmail.com', // Your email address
-//                 pass: 'Green@123', // Your email password or app-specific password
-//             },
-//         });
-
-//         await transporter.sendMail({
-//             from:'greenjobs2024@gmail.com',
-//             to: userEmail,
-//             subject: 'Account Approved',
-//             text: 'Your account has been approved. You can now log in and access our services.',
-//         });
-//     } catch (error) {
-//         console.error('Error sending approval email:', error);
-//         throw error; // Rethrow the error to be caught by the caller
-//     }
-// }
 
 router.get('/approve-tempacc/:email', async (req, res) => {
     const userEmail = req.params.email;
@@ -293,8 +268,6 @@ router.get('/approve-tempacc/:email', async (req, res) => {
             city: tempUser.city,
             address: tempUser.address,
             companyurl: tempUser.companyurl
-
-
         });
 
         // Save the new user to the user account collection
