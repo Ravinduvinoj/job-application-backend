@@ -4,10 +4,12 @@ const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
 
-const User = require('../models/user');
-const TempUser = require('../models/tempuser');
+const User = require('../models/userModel/user');
+const TempUser = require('../models/userModel/tempuser');
 const nodemailer = require('nodemailer');
 const router = Router();
+const userController = require('../controller/userController')
+const JobCategoryController = require('../controller/jobCategoryController')
 
 router.post('/temp-register', async (req, res) => {
     // res.send("create a new user");
@@ -74,6 +76,9 @@ router.post('/temp-register', async (req, res) => {
 
     }
 })
+router.post('/login',userController.login)
+router.post('/addcategory',JobCategoryController.addCategory)
+
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
     let email = req.body.email;
@@ -134,31 +139,6 @@ router.post('/direct-register', async (req, res) => {
     }
 })
 
-router.post("/login", async (req, res) => {
-    const user = await User.findOne({ email: req.body.email })
-
-    if (!user) {
-        return res.status(404).send({
-            message: "user not found"
-        })
-    }
-    if (!(await bcrypt.compare(req.body.password, user.password))) {
-        return res.status(400).send({
-            message: "incorrect password"
-        });
-    }
-    const token = jwt.sign({ _id: user._id }, "secret");
-
-    res.cookie("jwt", token, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000 //for one day
-    });
-
-    res.send({
-        message: "successfully",
-        userRole: user.userRole // usertype response
-    });
-})
 
 router.get('/user', async (req, res) => {
     try {
