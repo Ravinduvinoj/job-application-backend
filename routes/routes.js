@@ -125,7 +125,7 @@ router.post('/direct-register', async (req, res) => {
         })
         const result = await Tuser.save();
         console.log(result);
-       await sendRegEmail(email,password)
+        await sendRegEmail(email, password)
 
         res.send({
             message: "successfully",
@@ -378,7 +378,7 @@ async function sendApprovalEmail(userEmail) {
         throw error;
     }
 }
-async function sendRegEmail(userEmail,password) {
+async function sendRegEmail(userEmail, password) {
     try {
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
