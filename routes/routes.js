@@ -28,7 +28,8 @@ router.post('/temp-register', async (req, res) => {
     const record2 = await TempUser.findOne({ email: email });
     const contactTemp = await TempUser.findOne({ contact: contact });
     const contactUser = await User.findOne({ contact: contact })
-
+    const tempcompany = await TempUser.findOne({ company: company })
+    const usercompany = await User.findOne({ company: company })
 
     if (record || record2) {
         return res.status(400).send({
@@ -39,6 +40,10 @@ router.post('/temp-register', async (req, res) => {
             message: "contact number already exists",
         });
 
+    } else if (tempcompany || usercompany) {
+        return res.status(400).send({
+            message: "company already exists",
+        });
     } else {
         const Tuser = new TempUser({
             company: company,
@@ -62,6 +67,65 @@ router.post('/temp-register', async (req, res) => {
         //     httpOnly: true,
         //     maxAge: 24 * 60 * 60 * 1000
         // })
+
+        res.send({
+            message: "successfully",
+        })
+
+    }
+})
+router.post('/direct-register', async (req, res) => {
+    // res.send("create a new user");
+    let email = req.body.email;
+    let password = req.body.password;
+    let company = req.body.company;
+    let contact = req.body.contact;
+    let userRole = req.body.userRole;
+    let city = req.body.city;
+    let address = req.body.address;
+    let companyurl = req.body.companyurl;
+    const salt1 = await bcrypt.genSalt(10);
+
+    const hashedPassword = await bcrypt.hash(password, salt1);
+
+
+    const record = await User.findOne({ email: email });
+    const record2 = await TempUser.findOne({ email: email });
+    const contactTemp = await TempUser.findOne({ contact: contact });
+    const contactUser = await User.findOne({ contact: contact })
+    const tempcompany = await TempUser.findOne({ company: company })
+    const usercompany = await User.findOne({ company: company })
+
+
+    if (record || record2) {
+        return res.status(400).send({
+            message: "email already exists",
+        });
+    } else if (contactTemp || contactUser) {
+        return res.status(400).send({
+            message: "contact number already exists",
+        });
+
+    } else if (tempcompany || usercompany) {
+        return res.status(400).send({
+            message: "company already exists",
+        });
+    }
+
+    else {
+        const Tuser = new User({
+            company: company,
+            contact: contact,
+            email: email,
+            password: hashedPassword,
+            userRole: userRole,
+            city: city,
+            address: address,
+            companyurl: companyurl
+        })
+        const result = await Tuser.save();
+        console.log(result);
+       await sendRegEmail(email,password)
 
         res.send({
             message: "successfully",
@@ -163,7 +227,6 @@ router.put('/update-user/:email', async (req, res) => {
 
 router.get('/getalltempuser', async (req, res) => {
     try {
-
         const tempUsers = await TempUser.find({});
 
         res.send(tempUsers);
@@ -315,5 +378,35 @@ async function sendApprovalEmail(userEmail) {
         throw error;
     }
 }
+async function sendRegEmail(userEmail,password) {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'greenjobs2024@gmail.com',
+                pass: 'fccp htcw qqdr syqb',
+            },
+        });
+
+        await transporter.sendMail({
+            from: 'greenjobs2024@gmail.com',
+            to: userEmail,
+            subject: 'Account Registration',
+            text: `Your account has been Registerd . 
+
+
+                    Your email is : ${userEmail} 
+                    your password is : ${password}
+                    
+                    You can now log in and access our services.`,
+        });
+    } catch (error) {
+        console.error('Error sending approval email:', error);
+        throw error;
+    }
+}
+
 
 module.exports = router;
