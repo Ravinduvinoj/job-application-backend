@@ -144,6 +144,38 @@ const delete_useracc =async (req, res) => {
         res.status(500).send({ message: 'Internal server error' });
     }
 };
+const update_user =async (req, res) => {
+    const userEmail = req.params.email;
+    const { company, contact, userRole, city, address, companyurl } = req.body;
+
+    try {
+        // Find the user by email
+        let user = await User.findOne({ email: userEmail });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update the user fields
+        user.company = company || user.company;
+        user.contact = contact || user.contact;
+        user.userRole = userRole || user.userRole;
+        user.city = city || user.city;
+        user.address = address || user.address;
+        user.companyurl = companyurl || user.companyurl;
+
+        // Save the updated user
+        user = await user.save();
+
+        res.status(200).json({
+            message: 'User updated successfully',
+            user: user
+        });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 
 
 
@@ -152,5 +184,6 @@ module.exports ={
     getAllUserAccounts,
     user,
     temp_registerUser,
-    delete_useracc
+    delete_useracc,
+    update_user
 }

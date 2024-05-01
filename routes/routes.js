@@ -1,5 +1,5 @@
 const { Router } = require('express');
-
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/userModel/user');
@@ -14,11 +14,12 @@ router.post('/login',userController.login);
 router.get('/user',userController.user);//doing in athentication
 router.get('/user-accounts',userController.getAllUserAccounts);
 router.get('/delete-useracc/:email',userController.delete_useracc);
-
+router.put('/update-user/:email',userController.update_user)
 
 router.post('/addcategory',JobCategoryController.addCategory);
 router.get('/get-all-category',JobCategoryController.getAllJobCategory);
 router.get('/delete-category/:jobCategory',JobCategoryController.delete_category)
+router.put('/update-Category/:jobCategory',JobCategoryController.updateCategory)
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
@@ -90,38 +91,6 @@ router.post('/logout', (req, res) => {
     })
 })
 
-router.put('/update-user/:email', async (req, res) => {
-    const userEmail = req.params.email;
-    const { company, contact, userRole, city, address, companyurl } = req.body;
-
-    try {
-        // Find the user by email
-        let user = await User.findOne({ email: userEmail });
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Update the user fields
-        user.company = company || user.company;
-        user.contact = contact || user.contact;
-        user.userRole = userRole || user.userRole;
-        user.city = city || user.city;
-        user.address = address || user.address;
-        user.companyurl = companyurl || user.companyurl;
-
-        // Save the updated user
-        user = await user.save();
-
-        res.status(200).json({
-            message: 'User updated successfully',
-            user: user
-        });
-    } catch (error) {
-        console.error('Error updating user:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
 
 
 router.get('/getalltempuser', async (req, res) => {
