@@ -2,8 +2,6 @@ const { Router } = require('express');
 
 const bcrypt = require('bcryptjs');
 
-const jwt = require('jsonwebtoken');
-
 const User = require('../models/userModel/user');
 const TempUser = require('../models/userModel/tempuser');
 const nodemailer = require('nodemailer');
@@ -11,73 +9,16 @@ const router = Router();
 const userController = require('../controller/userController')
 const JobCategoryController = require('../controller/jobCategoryController')
 
-router.post('/temp-register', async (req, res) => {
-    // res.send("create a new user");
-    let email = req.body.email;
-    let password = req.body.password;
-    let company = req.body.company;
-    let contact = req.body.contact;
-    let userRole = req.body.userRole;
-    let city = req.body.city;
-    let address = req.body.address;
-    let companyurl = req.body.companyurl;
-    const salt1 = await bcrypt.genSalt(10);
-
-    const hashedPassword = await bcrypt.hash(password, salt1);
+router.post('/temp-register', userController.temp_registerUser)
+router.post('/login',userController.login);
+router.get('/user',userController.user);//doing in athentication
+router.get('/user-accounts',userController.getAllUserAccounts);
+router.get('/delete-useracc/:email',userController.delete_useracc);
 
 
-    const record = await User.findOne({ email: email });
-    const record2 = await TempUser.findOne({ email: email });
-    const contactTemp = await TempUser.findOne({ contact: contact });
-    const contactUser = await User.findOne({ contact: contact })
-    const tempcompany = await TempUser.findOne({ company: company })
-    const usercompany = await User.findOne({ company: company })
-
-    if (record || record2) {
-        return res.status(400).send({
-            message: "email already exists",
-        });
-    } else if (contactTemp || contactUser) {
-        return res.status(400).send({
-            message: "contact number already exists",
-        });
-
-    } else if (tempcompany || usercompany) {
-        return res.status(400).send({
-            message: "company already exists",
-        });
-    } else {
-        const Tuser = new TempUser({
-            company: company,
-            contact: contact,
-            email: email,
-            password: hashedPassword,
-            userRole: userRole,
-            city: city,
-            address: address,
-            companyurl: companyurl
-        })
-        const result = await Tuser.save();
-        console.log(result);
-
-        //JWT Token
-
-        // const { _id } = await result.toJSON();
-        // const token = jwt.sign({ _id: _id }, "secret")
-
-        // res.cookie("jwt", token, {
-        //     httpOnly: true,
-        //     maxAge: 24 * 60 * 60 * 1000
-        // })
-
-        res.send({
-            message: "successfully",
-        })
-
-    }
-})
-router.post('/login',userController.login)
-router.post('/addcategory',JobCategoryController.addCategory)
+router.post('/addcategory',JobCategoryController.addCategory);
+router.get('/get-all-category',JobCategoryController.getAllJobCategory);
+router.get('/delete-category/:jobCategory',JobCategoryController.delete_category)
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
@@ -140,29 +81,7 @@ router.post('/direct-register', async (req, res) => {
 })
 
 
-router.get('/user', async (req, res) => {
-    try {
-        const cookie = req.cookies['jwt']
 
-        const claims = jwt.verify(cookie, "secret")
-        if (!claims) {
-            return res.status(401).send({
-                message: "unauthenticated"
-            })
-        }
-
-        const user = await User.findOne({ _id: claims._id })
-
-        const { password, ...data } = await user.toJSON()
-        res.send(data)
-
-    }
-    catch (error) {
-        return res.status(401).send({
-            message: "unauthenticated"
-        })
-    }
-});
 
 router.post('/logout', (req, res) => {
     res.cookie("jwt", "", { maxAge: 0 })
@@ -235,35 +154,8 @@ router.get('/delete-tempacc/:email', async (req, res) => {
         res.status(500).send({ message: 'Internal server error' });
     }
 });
-router.get('/delete-useracc/:email', async (req, res) => {
-    const userEmail = req.params.email;
 
-    try {
-        // Find the temp user by email and delete it
-        const deletedUser = await User.findOneAndDelete({ email: userEmail });
 
-        if (!deletedUser) {
-            return res.status(404).send({ message: 'User not found' });
-        }
-
-        res.status(200).send({ message: 'User deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting user:', error);
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
-
-router.get('/user-accounts', async (req, res) => {
-    try {
-        // Fetch all user accounts from the database
-        const users = await User.find();
-
-        res.status(200).json(users);
-    } catch (error) {
-        console.error('Error fetching user accounts:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
 
 router.post('/approve-user/:email', async (req, res) => {
     const userEmail = req.params.email;
