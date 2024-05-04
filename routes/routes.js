@@ -7,7 +7,8 @@ const TempUser = require('../models/userModel/tempuser');
 const nodemailer = require('nodemailer');
 const router = Router();
 const userController = require('../controller/userController')
-const JobCategoryController = require('../controller/jobCategoryController')
+const JobCategoryController = require('../controller/jobCategoryController');
+const jobSubCategoryController = require('../controller/JobSubCategoryController');
 
 router.post('/temp-register', userController.temp_registerUser)
 router.post('/login',userController.login);
@@ -20,6 +21,8 @@ router.post('/addcategory',JobCategoryController.addCategory);
 router.get('/get-all-category',JobCategoryController.getAllJobCategory);
 router.get('/delete-category/:jobCategory',JobCategoryController.delete_category)
 router.put('/update-Category/:jobCategory',JobCategoryController.updateCategory)
+
+router.post('/add-subcategory/:categoryId',jobSubCategoryController.addSubCategory,)
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
