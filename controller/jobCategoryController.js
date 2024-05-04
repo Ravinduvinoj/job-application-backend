@@ -33,21 +33,21 @@ const getAllJobCategory = async (req, res) => {
     }
 };
 
-const delete_category = async (req, res) => {
-    const jCategory = req.params.jobCategory;
-    try {
-        const deleteCat = await Category.findOneAndDelete({ jobcategory: jCategory });
+// const delete_category = async (req, res) => {
+//     const jCategory = req.params.jobCategory;
+//     try {
+//         const deleteCat = await Category.findOneAndDelete({ jobcategory: jCategory });
 
-        if (!deleteCat) {
-            return res.status(404).send({ message: 'Job Category not found' });
-        }
+//         if (!deleteCat) {
+//             return res.status(404).send({ message: 'Job Category not found' });
+//         }
 
-        res.status(200).send({ message: 'job category deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting category:', error);
-        res.status(500).send({ message: 'Internal server error' });
-    }
-}
+//         res.status(200).send({ message: 'job category deleted successfully' });
+//     } catch (error) {
+//         console.error('Error deleting category:', error);
+//         res.status(500).send({ message: 'Internal server error' });
+//     }
+// }
 
     const updateCategory = async (req, res) => {
         const oldCategoryName = req.params.jobCategory;
@@ -94,6 +94,5 @@ const delete_category = async (req, res) => {
 module.exports = {
     addCategory,
     getAllJobCategory,
-    delete_category,
     updateCategory
 }

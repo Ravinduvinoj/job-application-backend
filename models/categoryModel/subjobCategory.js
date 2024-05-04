@@ -5,9 +5,9 @@ const subcategorySchema = new mongoose.Schema({
         type : 'string',
         required : true
     },
-    mainCategory: {
+    JobCategory: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'jobcategory'
+        ref: 'JobCategory'
     }
 
 },{ collection: 'jobsubcategory' })

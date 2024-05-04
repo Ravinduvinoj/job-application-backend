@@ -19,10 +19,10 @@ router.put('/update-user/:email',userController.update_user)
 
 router.post('/addcategory',JobCategoryController.addCategory);
 router.get('/get-all-category',JobCategoryController.getAllJobCategory);
-router.get('/delete-category/:jobCategory',JobCategoryController.delete_category)
+// router.get('/delete-category/:jobCategory',JobCategoryController.delete_category)
 router.put('/update-Category/:jobCategory',JobCategoryController.updateCategory)
 
-router.post('/add-subcategory/:categoryId',jobSubCategoryController.addSubCategory,)
+router.post('/add-subcategory/:categoryId', jobSubCategoryController.addSubCategory);
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
