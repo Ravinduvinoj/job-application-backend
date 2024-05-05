@@ -23,6 +23,8 @@ router.get('/get-all-category',JobCategoryController.getAllJobCategory);
 router.put('/update-Category/:jobCategory',JobCategoryController.updateCategory)
 
 router.post('/add-subcategory/:categoryId', jobSubCategoryController.addSubCategory);
+router.get('/get-all-Sub-Categories',jobSubCategoryController.getAllSubJobCategory);
+router.put('/update-sub-catgory/:subcategory',jobSubCategoryController.updateSubCategory)
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
