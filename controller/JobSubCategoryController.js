@@ -55,11 +55,11 @@ const updateSubCategory = async (req, res) => {
     console.log(mainCategoryId)
     console.log(newSubCategoryName)
     try {
-        
+
         const subcategoryToUpdate = await subcategory.findOne({ jobsubcategory: oldSubCategoryName });
         const checkMainCategory = await Category.findById(mainCategoryId);
         const existingSubCategory = await subcategory.findOne({ jobsubcategory: newSubCategoryName });
-        
+
         if (!subcategoryToUpdate) {
             return res.status(404).json({
                 message: "Subcategory not found"
@@ -82,7 +82,7 @@ const updateSubCategory = async (req, res) => {
         subcategoryToUpdate.JobCategory = mainCategoryId;
 
         const updatedSubcategory = await subcategoryToUpdate.save();
-    
+
         res.json({
             message: "Subcategory updated successfully",
             updatedSubcategory: updatedSubcategory
@@ -95,9 +95,22 @@ const updateSubCategory = async (req, res) => {
         });
     }
 }
+const getSelectedmainCategory = async (req, res) => {
+    try {
 
+        const mainCategoryId = req.params.id;
+        console.log('hhh' + mainCategoryId)
+        const getsubcategories = await subcategory.find({ JobCategory: mainCategoryId }).populate('jobsubcategory');
+        res.status(200).json(getsubcategories);
+    } catch (error) {
+        console.error('Error fetching selected job sub categories:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
 module.exports = {
     addSubCategory,
     getAllSubJobCategory,
-    updateSubCategory
+    updateSubCategory,
+    getSelectedmainCategory
 };
