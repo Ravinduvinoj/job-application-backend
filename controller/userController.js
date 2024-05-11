@@ -55,6 +55,7 @@ const user =async (req, res) => {
 
         const { password, ...data } = await user.toJSON()
         res.send(data)
+        console.log(data)
 
     }
     catch (error) {

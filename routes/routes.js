@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-
+const addpostController= require('../controller/advertiesmentController')
 const User = require('../models/userModel/user');
 const TempUser = require('../models/userModel/tempuser');
 const nodemailer = require('nodemailer');
@@ -25,7 +25,8 @@ router.put('/update-Category/:jobCategory',JobCategoryController.updateCategory)
 router.post('/add-subcategory/:categoryId', jobSubCategoryController.addSubCategory);
 router.get('/get-all-Sub-Categories',jobSubCategoryController.getAllSubJobCategory);
 router.put('/update-sub-catgory/:subcategory',jobSubCategoryController.updateSubCategory)
-router.get('/getselectedmaincategory/:id',jobSubCategoryController.getSelectedmainCategory)
+router.get('/getselectedmaincategory/:id',jobSubCategoryController.getSelectedmainCategory);
+ router.post('/add-post',addpostController.addPostData);
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
