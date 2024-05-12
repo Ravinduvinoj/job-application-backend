@@ -1,32 +1,34 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const addpostController= require('../controller/advertiesmentController')
+const addpostController = require('../controller/advertiesmentController')
 const User = require('../models/userModel/user');
 const TempUser = require('../models/userModel/tempuser');
 const nodemailer = require('nodemailer');
 const router = Router();
-const userController = require('../controller/userController')
+const companyuserController = require('../controller/CompanyUserController')
 const JobCategoryController = require('../controller/jobCategoryController');
 const jobSubCategoryController = require('../controller/JobSubCategoryController');
 
-router.post('/temp-register', userController.temp_registerUser)
-router.post('/login',userController.login);
-router.get('/user',userController.user);//doing in athentication
-router.get('/user-accounts',userController.getAllUserAccounts);
-router.get('/delete-useracc/:email',userController.delete_useracc);
-router.put('/update-user/:email',userController.update_user)
+router.post('/temp-register', companyuserController.temp_registerUser)
+router.post('/login', companyuserController.login);
+router.get('/user', companyuserController.user);//doing in athentication
+router.get('/user-accounts', companyuserController.getAllUserAccounts);
+router.get('/delete-useracc/:email', companyuserController.delete_useracc);
+router.put('/update-user/:email', companyuserController.update_user)
 
-router.post('/addcategory',JobCategoryController.addCategory);
-router.get('/get-all-category',JobCategoryController.getAllJobCategory);
+router.post('/addcategory', JobCategoryController.addCategory);
+router.get('/get-all-category', JobCategoryController.getAllJobCategory);
 // router.get('/delete-category/:jobCategory',JobCategoryController.delete_category)
-router.put('/update-Category/:jobCategory',JobCategoryController.updateCategory)
+router.put('/update-Category/:jobCategory', JobCategoryController.updateCategory)
 
 router.post('/add-subcategory/:categoryId', jobSubCategoryController.addSubCategory);
-router.get('/get-all-Sub-Categories',jobSubCategoryController.getAllSubJobCategory);
-router.put('/update-sub-catgory/:subcategory',jobSubCategoryController.updateSubCategory)
-router.get('/getselectedmaincategory/:id',jobSubCategoryController.getSelectedmainCategory);
- router.post('/add-post',addpostController.addPostData);
+router.get('/get-all-Sub-Categories', jobSubCategoryController.getAllSubJobCategory);
+router.put('/update-sub-catgory/:subcategory', jobSubCategoryController.updateSubCategory)
+router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedmainCategory);
+
+router.post('/add-post', addpostController.addPostData);
+router.get('/add-display/:id', addpostController.displaypost);
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
