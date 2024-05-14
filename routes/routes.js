@@ -9,6 +9,7 @@ const router = Router();
 const companyuserController = require('../controller/CompanyUserController')
 const JobCategoryController = require('../controller/jobCategoryController');
 const jobSubCategoryController = require('../controller/JobSubCategoryController');
+const jobseekerController = require('../controller/jobseekerController')
 
 router.post('/temp-register', companyuserController.temp_registerUser)
 router.post('/login', companyuserController.login);
@@ -29,6 +30,11 @@ router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedm
 
 router.post('/add-post', addpostController.addPostData);
 router.get('/add-display/:id', addpostController.displaypost);
+
+
+router.post('/jobseeker/register',jobseekerController.regjobseeker)
+router.post('/jobseeker/login',jobseekerController.loginjobseeker)
+router.post('/jobseeker/logout',jobseekerController.logout)
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");

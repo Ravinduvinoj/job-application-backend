@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const usersschema = new mongoose.Schema({
+const jobseekerschema = new mongoose.Schema({
     job_Seeker_Name:{
         type : 'string',
         required : true
@@ -34,6 +34,6 @@ const usersschema = new mongoose.Schema({
         type: 'string',
         required: true
     }
-
-},{ collection: 'useraccount' })
-module.exports = mongoose.model("User", usersschema);
+    
+},{ collection: 'jobseeker' })
+module.exports = mongoose.model("Jobseeker", jobseekerschema);

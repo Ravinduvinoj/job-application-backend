@@ -113,15 +113,15 @@ const temp_registerUser =async (req, res) => {
         const result = await Tuser.save();
         console.log(result);
 
-        //JWT Token
+        // JWT Token
 
-        // const { _id } = await result.toJSON();
-        // const token = jwt.sign({ _id: _id }, "secret")
+        const { _id } = await result.toJSON();
+        const token = jwt.sign({ _id: _id }, "secret")
 
-        // res.cookie("jwt", token, {
-        //     httpOnly: true,
-        //     maxAge: 24 * 60 * 60 * 1000
-        // })
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000
+        })
 
         res.send({
             message: "successfully",
