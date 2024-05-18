@@ -1,3 +1,8 @@
+ const multer = require('multer')
+ const fs = require('fs');
+ const path = require('path');
+const addPost = require('../models/advertiesmentModel/addvertiesmentModel');
+
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -28,7 +33,7 @@ router.get('/get-all-Sub-Categories', jobSubCategoryController.getAllSubJobCateg
 router.put('/update-sub-catgory/:subcategory', jobSubCategoryController.updateSubCategory)
 router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedmainCategory);
 
-router.post('/add-post', addpostController.addPostData);
+// router.post('/add-post', addpostController.addPostData);
 router.get('/add-display/:id', addpostController.displaypost);
 router.get('/displayPost', addpostController.displayAllpost);
 
@@ -36,6 +41,66 @@ router.get('/displayPost', addpostController.displayAllpost);
 router.post('/jobseeker/register',jobseekerController.regjobseeker)
 router.post('/jobseeker/login',jobseekerController.loginjobseeker)
 router.post('/jobseeker/logout',jobseekerController.logout)
+
+// Multer setup for file upload
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      const uploadPath = "Images/";
+      fs.mkdirSync(uploadPath, { recursive: true }); // Ensure the directory exists
+      cb(null, uploadPath);
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  });
+  
+  // File filter for images
+  const fileFilter = function (req, file, cb) {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only images are allowed"), false);
+    }
+  };
+  
+  // Initialize multer with options
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: 1024 * 1024 * 10, // 10 MB
+    },
+    fileFilter: fileFilter,
+  }).single("image");
+  
+  router.post('/add-post', upload, async (req, res) => {
+    console.log(req.body)
+    try {
+      const newPost = new addPost({
+        // Assuming addPost is a Mongoose model
+        job_title: req.body.job_title,
+        job_description: req.body.job_description,
+        ad_closing_date: req.body.ad_closing_date,
+        position_summary: req.body.position_summary,
+        requirement1: req.body.requirement1,
+        requirement2: req.body.requirement2,
+        country: req.body.country, // Fixed typo from çountry to country
+        city: req.body.city,
+        JobCategory: req.body.JobCategory,
+        jobsubcategory: req.body.jobsubcategory,
+        User: req.body.User,
+        image: req.file ? req.file.path : "",
+      });
+  
+      const result = await newPost.save();
+      console.log(result);
+      res.json({ message: 'Data uploaded successfully!' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error uploading data.' });
+    }
+  });
+
+
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");

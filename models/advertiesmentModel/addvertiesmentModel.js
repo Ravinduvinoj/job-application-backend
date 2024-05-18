@@ -52,6 +52,9 @@ const advertiesmentSchema = new mongoose.Schema({
     User: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    image: {
+        type: 'string'
     }
 
 
