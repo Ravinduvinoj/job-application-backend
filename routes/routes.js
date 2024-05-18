@@ -1,5 +1,7 @@
  const multer = require('multer')
  const fs = require('fs');
+ const uploads = multer({ dest: 'uploads/' }); // Adjust destination folder as needed
+
  const path = require('path');
 const addPost = require('../models/advertiesmentModel/addvertiesmentModel');
 
@@ -100,7 +102,14 @@ const storage = multer.diskStorage({
     }
   });
 
-
+  
+  router.post("/upload", uploads.single("image"), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    const imagePath = "/Images/" + req.file.filename; // Correct path
+    res.json({ imagePath });
+  });
 
 router.post('/direct-register', async (req, res) => {
     // res.send("create a new user");
