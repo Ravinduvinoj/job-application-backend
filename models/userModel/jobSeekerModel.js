@@ -5,10 +5,10 @@ const jobseekerschema = new mongoose.Schema({
         type : 'string',
         required : true
     },
-    contact: {
-        type :'number',
-        required : true
-    },
+    // contact: {
+    //     type :'number',
+    //     required : true
+    // },
     email: {
         type :'string',
         unique : true,
@@ -22,18 +22,18 @@ const jobseekerschema = new mongoose.Schema({
         type :'string',
         required : true
     },
-    city: {
-        type: 'string',
-        required: true
-    },
-    dob: {
-        type: 'Date',
-        required: true
-    },
-    address: {
-        type: 'string',
-        required: true
-    }
+    // city: {
+    //     type: 'string',
+    //     required: true
+    // },
+    // dob: {
+    //     type: 'Date',
+    //     required: true
+    // },
+    // address: {
+    //     type: 'string',
+    //     required: true
+    // }
     
 },{ collection: 'jobseeker' })
 module.exports = mongoose.model("Jobseeker", jobseekerschema);

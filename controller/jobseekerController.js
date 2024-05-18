@@ -28,14 +28,14 @@ const regjobseeker = async (req, res) => {
    
         const JSuser = new jobsekkerSchema({
             email: email,
-            contact: contact,
+            // contact: contact,
             email: email,
             password: hashedPassword,
             userRole: userRole,
-            city: city,
-            address: address,
+            // city: city,
+            // address: address,
             job_Seeker_Name: job_Seeker_Name,
-            dob:dob
+            // dob:dob
         })
         const result = await JSuser.save();
         console.log(result);

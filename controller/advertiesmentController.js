@@ -49,10 +49,27 @@ const displaypost = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+const displayAllpost = async (req, res) => {
+  try {
+
+    const posts = await addPost.find();
+    return res.status(200).send({
+      message: "Success",
+      data: posts,
+    });
+  } catch (error) {
+    console.error('Error fetching addvertiesment:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
 
 
 
 module.exports = {
   addPostData,
-  displaypost
+  displaypost,
+  displayAllpost
 }

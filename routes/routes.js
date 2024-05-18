@@ -30,6 +30,7 @@ router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedm
 
 router.post('/add-post', addpostController.addPostData);
 router.get('/add-display/:id', addpostController.displaypost);
+router.get('/displayPost', addpostController.displayAllpost);
 
 
 router.post('/jobseeker/register',jobseekerController.regjobseeker)
