@@ -1,4 +1,4 @@
-
+const moment = require('moment');
 const User = require('../models/userModel/user');
 const addPost = require('../models/advertiesmentModel/addvertiesmentModel');
 
@@ -42,7 +42,11 @@ const displaypost = async (req, res) => {
     if(!post){
       res.status(401).json({ message: 'no any post created' });
     }
-    console.log(post)
+    const dateString = post.ad_closing_date;
+    const formattedDate = moment(dateString).format('YYYY-MM-DD');
+    post.ad_closing_date =formattedDate;
+    console.log(formattedDate); 
+   
     res.status(200).json(post);
   } catch (error) {
     console.error('Error fetching addvertiesment:', error);
@@ -51,8 +55,12 @@ const displaypost = async (req, res) => {
 };
 const displayAllpost = async (req, res) => {
   try {
-
+    
     const posts = await addPost.find();
+    const dateString = posts.ad_closing_date;
+    const formattedDate = moment(dateString).format('YYYY-MM-DD');
+    posts.ad_closing_date =formattedDate;
+    console.log(formattedDate); 
     return res.status(200).send({
       message: "Success",
       data: posts,

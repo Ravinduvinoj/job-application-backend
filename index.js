@@ -3,7 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 const routes = require('./routes/routes')
-
+const path = require('path');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
@@ -21,6 +21,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use("/api", routes)
 
+app.use('/Images', express.static(path.join(__dirname, 'Images')));
 const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGODB_URL, {
     dbName: 'greenjobdb',
