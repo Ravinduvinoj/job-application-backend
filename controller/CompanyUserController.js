@@ -34,6 +34,7 @@ const getAllUserAccounts =  async (req, res) => {
         // Fetch all user accounts from the database
         const users = await User.find();
 
+        
         res.status(200).json(users);
     } catch (error) {
         console.error('Error fetching user accounts:', error);

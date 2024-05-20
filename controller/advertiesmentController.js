@@ -4,11 +4,8 @@ const addPost = require('../models/advertiesmentModel/addvertiesmentModel');
 
 
 const addPostData = async (req, res) => {
-
-
-
   try {
-    const upload = new addPost({
+    const upload = new tempadd({
       // add_file: req.body.image,
       job_title: req.body.jobtitle,
       job_description: req.body.jobDescription,
@@ -37,16 +34,16 @@ const addPostData = async (req, res) => {
 const displaypost = async (req, res) => {
   try {
     const loginID = req.params.id;
-    console.log('dfdfdf'+loginID)
+    console.log('dfdfdf' + loginID)
     const post = await addPost.find({ User: loginID }).populate('job_title');
-    if(!post){
+    if (!post) {
       res.status(401).json({ message: 'no any post created' });
     }
     const dateString = post.ad_closing_date;
     const formattedDate = moment(dateString).format('YYYY-MM-DD');
-    post.ad_closing_date =formattedDate;
-    console.log(formattedDate); 
-   
+    post.ad_closing_date = formattedDate;
+    console.log(formattedDate);
+
     res.status(200).json(post);
   } catch (error) {
     console.error('Error fetching addvertiesment:', error);
@@ -55,12 +52,12 @@ const displaypost = async (req, res) => {
 };
 const displayAllpost = async (req, res) => {
   try {
-    
+
     const posts = await addPost.find();
     const dateString = posts.ad_closing_date;
     const formattedDate = moment(dateString).format('YYYY-MM-DD');
-    posts.ad_closing_date =formattedDate;
-    console.log(formattedDate); 
+    posts.ad_closing_date = formattedDate;
+    console.log(formattedDate);
     return res.status(200).send({
       message: "Success",
       data: posts,
@@ -72,12 +69,29 @@ const displayAllpost = async (req, res) => {
 };
 
 
+const delete_post = async (req, res) => {
+  const post_id = req.params.id;
 
+  try {
+    // Find the temp user by email and delete it
+    const deleteadd = await addPost.findOneAndDelete({ _id: post_id });
+
+    if (!deleteadd) {
+      return res.status(404).send({ message: 'post not found' });
+    }
+
+    res.status(200).send({ message: 'post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+};
 
 
 
 module.exports = {
   addPostData,
   displaypost,
-  displayAllpost
+  displayAllpost,
+  delete_post
 }

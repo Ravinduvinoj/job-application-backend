@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const moment = require('moment');
-
+const tempadd = require ('.././models/advertiesmentModel/tempaddveritesmentModel')
 
 
 const addPost = require('../models/advertiesmentModel/addvertiesmentModel');
@@ -38,6 +38,7 @@ router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedm
 
 router.get('/add-display/:id', addpostController.displaypost);
 router.get('/displayPost', addpostController.displayAllpost);
+router.get('/post/delete/:id', addpostController.delete_post);
 
 router.post('/jobseeker/register', jobseekerController.regjobseeker);
 router.post('/jobseeker/login', jobseekerController.loginjobseeker);
@@ -81,7 +82,7 @@ router.post('/add-post', upload.single('image'), async (req, res) => {
 
   try {
     
-    const newPost = new addPost({
+    const newPost = new tempadd({
       job_title: req.body.job_title,
       job_description: req.body.job_description,
       ad_closing_date: formattedDate,
@@ -301,7 +302,7 @@ async function sendApprovalEmail(userEmail) {
             from: 'greenjobs2024@gmail.com',
             to: userEmail,
             subject: 'Account Approved',
-            text: `Your email account has been approved . 
+            text: `Your company account has been approved . 
 
 
                     Your email is : ${userEmail} 
