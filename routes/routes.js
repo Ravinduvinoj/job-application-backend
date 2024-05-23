@@ -9,7 +9,6 @@ const moment = require('moment');
 const tempadd = require ('.././models/advertiesmentModel/tempaddveritesmentModel')
 
 
-const addPost = require('../models/advertiesmentModel/addvertiesmentModel');
 const addpostController = require('../controller/advertiesmentController');
 const User = require('../models/userModel/user');
 const TempUser = require('../models/userModel/tempuser');
@@ -43,6 +42,9 @@ router.get('/post/delete/:id', addpostController.delete_post);
 router.post('/jobseeker/register', jobseekerController.regjobseeker);
 router.post('/jobseeker/login', jobseekerController.loginjobseeker);
 router.post('/jobseeker/logout', jobseekerController.logout);
+
+router.get('/temp/advertiesment',addpostController.displayAlltemppost);
+router.get('/temp/approve/:_id',addpostController.approv_ad)
 
 // Multer setup for file upload
 const storage = multer.diskStorage({
