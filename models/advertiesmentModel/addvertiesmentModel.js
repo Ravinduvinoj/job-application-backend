@@ -56,8 +56,6 @@ const advertiesmentSchema = new mongoose.Schema({
     image: {
         type: 'string'
     }
-
-
 }, { collection: 'advertiesment' })
 module.exports = mongoose.model("advertiesment", advertiesmentSchema);
 

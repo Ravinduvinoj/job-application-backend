@@ -127,7 +127,6 @@ const approv_ad= async (req, res) => {
         jobsubcategory: temppost.jobsubcategory,
         User: temppost.User,
         image: temppost.image,
-
       });
 
       // Save the new add to the advertiesment collection
@@ -146,6 +145,27 @@ const approv_ad= async (req, res) => {
   }
 };
 
+const getAd = async (req, res) => {
+  const id = req.params.id;
+  console.log(id)
+  try {
+    const post = await addPost.findById({_id:id})
+
+    if (!post) {
+      return res.status(404).send({
+        message: "Advertisement not found",
+      });
+    }
+
+    return res.status(200).send({
+      message: "Success",
+      data: post,
+    });
+  } catch (error) {
+    console.error('Error fetching advertisement:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 
 module.exports = {
@@ -153,5 +173,6 @@ module.exports = {
   displayAllpost,
   delete_post,
   displayAlltemppost,
-  approv_ad
+  approv_ad,
+  getAd
 }

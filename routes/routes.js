@@ -44,7 +44,8 @@ router.post('/jobseeker/login', jobseekerController.loginjobseeker);
 router.post('/jobseeker/logout', jobseekerController.logout);
 
 router.get('/temp/advertiesment',addpostController.displayAlltemppost);
-router.get('/temp/approve/:_id',addpostController.approv_ad)
+router.get('/temp/approve/:_id',addpostController.approv_ad);
+router.get('/post/show/:id',addpostController.getAd);
 
 // Multer setup for file upload
 const storage = multer.diskStorage({

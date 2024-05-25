@@ -15,18 +15,34 @@ const TempUser = require('../models/userModel/tempuser');
         return res.status(400).send({
             message: "incorrect password"
         });
+    } 
+    if (user.userRole=='admin'){
+        const token = jwt.sign({ _id: user._id }, "secret");
+
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000 //for one day
+        });
+    
+        res.send({
+            message: "successfully",
+            userRole: user.userRole // usertype response
+        });
     }
-    const token = jwt.sign({ _id: user._id }, "secret");
+    else if(user.userRole =='company'){
+        const token = jwt.sign({ _id: user._id }, "secret");
 
-    res.cookie("jwt", token, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000 //for one day
-    });
-
-    res.send({
-        message: "successfully",
-        userRole: user.userRole // usertype response
-    });
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000 //for one day
+        });
+    
+        res.send({
+            message: "successfully",
+            userRole: user.userRole // usertype response
+        });
+    }
+ 
 }
 
 const getAllUserAccounts =  async (req, res) => {
