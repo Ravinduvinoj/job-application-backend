@@ -35,5 +35,6 @@ const usersschema = new mongoose.Schema({
         required: true
     }
 
-},{ collection: 'useraccount' })
+},
+{ collection: 'useraccount' })
 module.exports = mongoose.model("User", usersschema);

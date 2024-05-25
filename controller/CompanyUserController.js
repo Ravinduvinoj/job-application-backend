@@ -195,6 +195,26 @@ const update_user =async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+const getTempUser =async (req, res) => {
+    try {
+        const tempUsers = await TempUser.find({});
+
+        res.send(tempUsers);
+    } catch (error) {
+
+        res.status(500).send({
+            message: 'Error retrieving temp users',
+            error: error.message
+        });
+    }
+};
+
+const logout =(req, res) => {
+    res.cookie("jwt", "", { maxAge: 0 })
+    res.send({
+        message: "successfully",
+    })
+}
 
 
 
@@ -204,5 +224,7 @@ module.exports ={
     user,
     temp_registerUser,
     delete_useracc,
-    update_user
+    update_user,
+    getTempUser,
+    logout
 }

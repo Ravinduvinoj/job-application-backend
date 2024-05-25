@@ -34,5 +34,7 @@ const tempusersschema = new mongoose.Schema({
         type:'string',
         required: true
     }
-}, { collection: 'tempuseraccount' })
+},
+
+ { collection: 'tempuseraccount' })
 module.exports = mongoose.model("TempUser", tempusersschema);

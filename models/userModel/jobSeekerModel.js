@@ -35,5 +35,6 @@ const jobseekerschema = new mongoose.Schema({
     //     required: true
     // }
     
-},{ collection: 'jobseeker' })
+},
+{ collection: 'jobseeker' })
 module.exports = mongoose.model("Jobseeker", jobseekerschema);

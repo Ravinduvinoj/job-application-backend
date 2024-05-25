@@ -38,7 +38,7 @@ const advertiesmentSchema = new mongoose.Schema({
         required: true
     },
     post_date: {
-        type: 'string',
+        type: 'Date',
         default: Date.now
     },
     JobCategory: {
@@ -56,6 +56,6 @@ const advertiesmentSchema = new mongoose.Schema({
     image: {
         type: 'string'
     }
-}, { collection: 'advertiesment' })
+},{ collection: 'advertiesment' })
 module.exports = mongoose.model("advertiesment", advertiesmentSchema);
 

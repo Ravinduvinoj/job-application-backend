@@ -1,33 +1,31 @@
 const mongoose = require('mongoose');
 
 const ApplicationSchema = new mongoose.Schema({
-    Name: {
+    name: {
         type: 'string',
         required: true
     },
-    Address: {
+    address: {
         type: 'Date',
         required: true
     },
-    City: {
+    city: {
         type: 'string',
         required: true
     },
-    DOB: {
+    dob: {
         type: 'Date',
         required: true
     },
-    Gender: {
+    gender: {
         type: 'string'
-
     },
     // Resume: {
     //     type: 'string',
     //     required: true
     // },
-    Contact: {
+    contact: {
         type: 'string',
-
     },
     country: {
         type: 'string',
@@ -38,7 +36,7 @@ const ApplicationSchema = new mongoose.Schema({
        default:'pending'
     },
     Submission_date: {
-        type: 'string',
+        type: 'Date',
         default: Date.now
     },
     advertiesment: {
@@ -49,8 +47,6 @@ const ApplicationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'jobseeker'
     }
-
-
-}, { collection: 'application' })
+},
+{ collection: 'application' })
 module.exports = mongoose.model("application", ApplicationSchema);
-

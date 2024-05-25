@@ -38,7 +38,7 @@ const tempadvertiesmentSchema = new mongoose.Schema({
         required: true
     },
     post_date: {
-        type: 'string',
+        type: 'Date',
         default: Date.now
     },
     JobCategory: {
@@ -58,6 +58,6 @@ const tempadvertiesmentSchema = new mongoose.Schema({
     }
 
 
-}, { collection: 'tempadvertiesment' })
+},{ collection: 'tempadvertiesment' })
 module.exports = mongoose.model("tempadvertiesment", tempadvertiesmentSchema);
 
