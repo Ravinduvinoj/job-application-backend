@@ -6,7 +6,7 @@ const ApplicationSchema = new mongoose.Schema({
         required: true
     },
     address: {
-        type: 'Date',
+        type: 'String',
         required: true
     },
     city: {
@@ -25,12 +25,12 @@ const ApplicationSchema = new mongoose.Schema({
     //     required: true
     // },
     contact: {
-        type: 'string',
+        type: 'Number',
     },
-    country: {
-        type: 'string',
-        required: true
-    },
+    // country: {
+    //     type: 'string',
+    //     required: true
+    // },
     status: {
         type: 'string',
        default:'pending'

@@ -3,17 +3,20 @@ const adveriesment = require('../models/advertiesmentModel/addvertiesmentModel')
 const jobUsers = require('../models/userModel/jobSeekerModel')
 
 const apply = async (req ,res)=>{
+    
     const _id = req.params.ad_id;
 console.log(_id)
-    let name = req.body.name;
-    let contact = req.body.contact;
-    let address = req.body.address;
-    let city = req.body.city;
-    let country = req.body.country;
-    let gender = req.body.gender;
-    let dob = req.body.dob;
+const nm = req.params.name;
+console.log(nm)
+   
+    let contact = req.params.contact;
+    let address = req.params.address;
+    let city = req.params.city;
+    // let country = req.body.country;
+    let gender = req.params.gender;
+    let dob = req.params.dob;
     let status = 'pending';
-    let jobseekerid = req.body.jobseeker;
+     let jobseekerid = '6640ca8b5c5c7522955cf410';
     console.log(req.body)
 
     const findAd = await adveriesment.findById(_id);
@@ -43,13 +46,13 @@ console.log(_id)
     }
 
     const newApply = new application({
-        name: name,
+        name: nm,
         address: address,
         city: city,
         dob: dob,
         gender: gender,
         contact: contact,
-        country: country,
+        // country: country,
         status: status,
         advertiesment: _id,
         jobseeker: jobseekerid
@@ -63,8 +66,6 @@ console.log(_id)
 
          
 }
-
-
 
 module.exports= {
     apply

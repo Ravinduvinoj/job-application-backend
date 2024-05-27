@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const TempUser = require('../models/userModel/tempuser');
 
- const login =async (req, res) => {
+const login = async (req, res) => {
     const user = await User.findOne({ email: req.body.email })
 
     if (!user) {
@@ -15,49 +15,49 @@ const TempUser = require('../models/userModel/tempuser');
         return res.status(400).send({
             message: "incorrect password"
         });
-    } 
-    if (user.userRole=='admin'){
+    }
+    if (user.userRole == 'admin') {
         const token = jwt.sign({ _id: user._id }, "secret");
 
         res.cookie("jwt", token, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000 //for one day
         });
-    
+
         res.send({
             message: "successfully",
             userRole: user.userRole // usertype response
         });
     }
-    else if(user.userRole =='company'){
+    else if (user.userRole == 'company') {
         const token = jwt.sign({ _id: user._id }, "secret");
 
         res.cookie("jwt", token, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000 //for one day
         });
-    
+
         res.send({
             message: "successfully",
             userRole: user.userRole // usertype response
         });
     }
- 
+
 }
 
-const getAllUserAccounts =  async (req, res) => {
+const getAllUserAccounts = async (req, res) => {
     try {
         // Fetch all user accounts from the database
         const users = await User.find();
 
-        
+
         res.status(200).json(users);
     } catch (error) {
         console.error('Error fetching user accounts:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-const user =async (req, res) => {
+const user = async (req, res) => {
     try {
         const cookie = req.cookies['jwt']
 
@@ -81,7 +81,7 @@ const user =async (req, res) => {
         })
     }
 };
-const temp_registerUser =async (req, res) => {
+const temp_registerUser = async (req, res) => {
     // res.send("create a new user");
     let email = req.body.email;
     let password = req.body.password;
@@ -94,7 +94,6 @@ const temp_registerUser =async (req, res) => {
     const salt1 = await bcrypt.genSalt(10);
 
     const hashedPassword = await bcrypt.hash(password, salt1);
-
 
     const record = await User.findOne({ email: email });
     const record2 = await TempUser.findOne({ email: email });
@@ -130,6 +129,7 @@ const temp_registerUser =async (req, res) => {
         const result = await Tuser.save();
         console.log(result);
 
+
         // JWT Token
 
         const { _id } = await result.toJSON();
@@ -139,31 +139,27 @@ const temp_registerUser =async (req, res) => {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000
         })
-
         res.send({
             message: "successfully",
         })
-
     }
 }
-const delete_useracc =async (req, res) => {
-    const userEmail = req.params.email;
 
+const delete_useracc = async (req, res) => {
+    const userEmail = req.params.email;
     try {
         // Find the temp user by email and delete it
         const deletedUser = await User.findOneAndDelete({ email: userEmail });
-
         if (!deletedUser) {
             return res.status(404).send({ message: 'User not found' });
         }
-
         res.status(200).send({ message: 'User deleted successfully' });
     } catch (error) {
         console.error('Error deleting user:', error);
         res.status(500).send({ message: 'Internal server error' });
     }
 };
-const update_user =async (req, res) => {
+const update_user = async (req, res) => {
     const userEmail = req.params.email;
     const { company, contact, userRole, city, address, companyurl } = req.body;
 
@@ -195,7 +191,8 @@ const update_user =async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-const getTempUser =async (req, res) => {
+
+const getTempUser = async (req, res) => {
     try {
         const tempUsers = await TempUser.find({});
 
@@ -209,16 +206,14 @@ const getTempUser =async (req, res) => {
     }
 };
 
-const logout =(req, res) => {
+const logout = (req, res) => {
     res.cookie("jwt", "", { maxAge: 0 })
     res.send({
         message: "successfully",
     })
 }
 
-
-
-module.exports ={
+module.exports = {
     login,
     getAllUserAccounts,
     user,
