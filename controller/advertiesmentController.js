@@ -49,19 +49,42 @@ const displaypost = async (req, res) => {
   }
 };
 
+// const displayAllpost = async (req, res) => {
+//   try {
+//     const posts = await addPost.find();
+//     const dateString = posts.ad_closing_date;
+//     const formattedDate = moment(dateString).format('YYYY-MM-DD');
+//     posts.ad_closing_date = formattedDate;
+//     console.log(formattedDate);
+//     return res.status(200).send({
+//       message: "Success",
+//       data: posts,
+//     });
+//   } catch (error) {
+//     console.error('Error fetching addvertiesment:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
 const displayAllpost = async (req, res) => {
   try {
-    const posts = await addPost.find();
-    const dateString = posts.ad_closing_date;
-    const formattedDate = moment(dateString).format('YYYY-MM-DD');
-    posts.ad_closing_date = formattedDate;
-    console.log(formattedDate);
+    // Fetch and sort the posts by post_date in descending order
+    const posts = await addPost.find().sort({ post_date: -1 });
+    
+    // Format the ad_closing_date and post_date for each post
+    const formattedPosts = posts.map(post => {
+      const formattedPost = post.toObject();
+      formattedPost.ad_closing_date = moment(post.ad_closing_date).format('YYYY-MM-DD');
+      formattedPost.post_date = moment(post.post_date).format('YYYY-MM-DD');
+      return formattedPost;
+    });
+
     return res.status(200).send({
       message: "Success",
-      data: posts,
+      data: formattedPosts,
     });
   } catch (error) {
-    console.error('Error fetching addvertiesment:', error);
+    console.error('Error fetching advertisements:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };

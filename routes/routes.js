@@ -58,7 +58,7 @@ router.get('/temp/advertiesment',addpostController.displayAlltemppost);
 router.get('/temp/approve/:_id',addpostController.approv_ad);
 router.get('/post/show/:id',addpostController.getAd);
 
-router.post('/jobseeker/apply/:ad_id/:name/:contact/:city/:address/:dob/:gender',applicationController.apply);
+router.post('/jobseeker/apply/:ad_id/:name/:contact/:city/:dob/:gender',applicationController.apply);
 
 // Multer setup for file upload
 const storage = multer.diskStorage({
@@ -128,4 +128,5 @@ router.post('/upload', upload.single('image'), (req, res) => {
   const imagePath = `/Images/${req.file.filename}`; // Corrected path
   res.json({ imagePath });
 });
+
 module.exports = router;

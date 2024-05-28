@@ -10,7 +10,7 @@ const nm = req.params.name;
 console.log(nm)
    
     let contact = req.params.contact;
-    let address = req.params.address;
+    let address = req.body.address;
     let city = req.params.city;
     // let country = req.body.country;
     let gender = req.params.gender;
