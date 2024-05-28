@@ -58,7 +58,8 @@ router.get('/temp/advertiesment',addpostController.displayAlltemppost);
 router.get('/temp/approve/:_id',addpostController.approv_ad);
 router.get('/post/show/:id',addpostController.getAd);
 
-router.post('/jobseeker/apply/:ad_id/:name/:contact/:city/:dob/:gender',applicationController.apply);
+// router.post('/jobseeker/apply/:ad_id/:name/:contact/:city/:dob/:gender',applicationController.apply);
+router.post('/jobseeker/apply/:ad_id',applicationController.apply);
 
 // Multer setup for file upload
 const storage = multer.diskStorage({
@@ -95,7 +96,6 @@ router.post('/add-post', upload.single('image'), async (req, res) => {
     const dateString = req.body.ad_closing_date;
     const formattedDate = moment(dateString).format('YYYY-MM-DD');
     console.log(formattedDate); 
-
   try {
     
     const newPost = new tempadd({

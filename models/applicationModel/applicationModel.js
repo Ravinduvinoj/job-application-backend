@@ -46,6 +46,9 @@ const ApplicationSchema = new mongoose.Schema({
     jobseeker: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'jobseeker'
+    },
+    cvFile : {
+        type :'string'
     }
 },
 { collection: 'application' })
