@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const moment = require('moment');
+const cron = require('node-cron');
+
+
 const tempadd = require ('.././models/advertiesmentModel/tempaddveritesmentModel')
 
 const sentEmail = require('../controller/Email/RegEmailController')
@@ -18,6 +21,7 @@ const JobCategoryController = require('../controller/jobCategoryController');
 const jobSubCategoryController = require('../controller/JobSubCategoryController');
 const jobseekerController = require('../controller/jobseekerController');
 const applicationController = require('../controller/applicationController');
+const listiningController = require('../controller/joblistningController')
 
 const router = Router();
 
@@ -44,7 +48,7 @@ router.put('/update-Category/:jobCategory', JobCategoryController.updateCategory
 router.post('/add-subcategory/:categoryId', jobSubCategoryController.addSubCategory);
 router.get('/get-all-Sub-Categories', jobSubCategoryController.getAllSubJobCategory);
 router.put('/update-sub-catgory/:subcategory', jobSubCategoryController.updateSubCategory);
-router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedmainCategory);
+router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedMainCategory);
 
 router.get('/add-display/:id', addpostController.displaypost);
 router.get('/displayPost', addpostController.displayAllpost);
@@ -58,8 +62,11 @@ router.get('/temp/advertiesment',addpostController.displayAlltemppost);
 router.get('/temp/approve/:_id',addpostController.approv_ad);
 router.get('/post/show/:id',addpostController.getAd);
 
-// router.post('/jobseeker/apply/:ad_id/:name/:contact/:city/:dob/:gender',applicationController.apply);
 router.post('/jobseeker/apply/:ad_id',applicationController.apply);
+
+router.get('/get-application/:_id',listiningController.getapplied);
+
+
 
 // Multer setup for file upload
 const storage = multer.diskStorage({
@@ -127,6 +134,17 @@ router.post('/upload', upload.single('image'), (req, res) => {
   }
   const imagePath = `/Images/${req.file.filename}`; // Corrected path
   res.json({ imagePath });
+});
+
+const { deleteExpiredAdvertisements } = require('../controller/advertiesmentController');
+
+// Schedule the job to run every day at midnight IST
+cron.schedule('0 0 * * *', async () => {
+  console.log('Running deleteExpiredAdvertisements job');
+  await deleteExpiredAdvertisements();
+}, {
+  scheduled: true,
+  timezone: "Asia/Kolkata" // India Standard Time
 });
 
 module.exports = router;

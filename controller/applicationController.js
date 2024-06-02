@@ -11,10 +11,13 @@ exports.apply = async (req, res, next) => {
             return next(err);
         } else {
             try {
-                const url = req.protocol + "://" + req.get("host");
+                const ad = req.params.ad_id;
+                console.log(ad)
+                // const url = req.protocol + "://" + req.get("host");
+                const url = req.protocol + "://" + 'localhost:5000';
                 const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
                 let status = 'pending';
-                let jobseekerid = '6640ca8b5c5c7522955cf410';
+                let jobseekerid = '6640cb055c5c7522955cf414';
 
                 const findAd = await advertisement.findById(req.params.ad_id);
                 const jobUserid = await jobUsers.findOne({ _id: jobseekerid });
@@ -50,7 +53,7 @@ exports.apply = async (req, res, next) => {
                     gender: req.body.gender,
                     contact: req.body.contact,
                     status: status,
-                    advertisement: req.params.ad_id,
+                    advertiesment: ad,
                     jobseeker: jobseekerid,
                     cvFile: path != "" ? url + "/" + path : "",
                 });

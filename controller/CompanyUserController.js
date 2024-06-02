@@ -16,32 +16,22 @@ const login = async (req, res) => {
             message: "incorrect password"
         });
     }
-    if (user.userRole == 'admin') {
-        const token = jwt.sign({ _id: user._id }, "secret");
+ 
+        const token = jwt.sign({ _id: user._id ,userRole:user.userRole}, "secret");
 
         res.cookie("jwt", token, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000 //for one day
+            secure:true,
+            maxAge: new Date(Date.now() +24 * 60 * 60 * 1000) //for one day
         });
 
         res.send({
             message: "successfully",
-            userRole: user.userRole // usertype response
+            userRole: user.userRole, // usertype response
+            token: user.token
         });
-    }
-    else if (user.userRole == 'company') {
-        const token = jwt.sign({ _id: user._id }, "secret");
-
-        res.cookie("jwt", token, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000 //for one day
-        });
-
-        res.send({
-            message: "successfully",
-            userRole: user.userRole // usertype response
-        });
-    }
+  
+ 
 
 }
 
@@ -129,18 +119,9 @@ const temp_registerUser = async (req, res) => {
         const result = await Tuser.save();
         console.log(result);
 
-
-        // JWT Token
-
-        const { _id } = await result.toJSON();
-        const token = jwt.sign({ _id: _id }, "secret")
-
-        res.cookie("jwt", token, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000
-        })
         res.send({
             message: "successfully",
+            
         })
     }
 }

@@ -37,4 +37,4 @@ const jobseekerschema = new mongoose.Schema({
     
 },
 { collection: 'jobseeker' })
-module.exports = mongoose.model("Jobseeker", jobseekerschema);
+module.exports = mongoose.model("jobseeker", jobseekerschema);
