@@ -2,9 +2,6 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const { Router } = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
 const moment = require('moment');
 const cron = require('node-cron');
 
@@ -13,8 +10,6 @@ const tempadd = require ('.././models/advertiesmentModel/tempaddveritesmentModel
 
 const sentEmail = require('../controller/Email/RegEmailController')
 const addpostController = require('../controller/advertiesmentController');
-const User = require('../models/userModel/user');
-const TempUser = require('../models/userModel/tempuser');
 const companyuserController = require('../controller/CompanyUserController');
 const tempRegController = require('../controller/tempRegController');
 const JobCategoryController = require('../controller/jobCategoryController');
@@ -22,6 +17,7 @@ const jobSubCategoryController = require('../controller/JobSubCategoryController
 const jobseekerController = require('../controller/jobseekerController');
 const applicationController = require('../controller/applicationController');
 const listiningController = require('../controller/joblistningController')
+const scheduleController = require('../controller/schedulingController')
 
 const router = Router();
 
@@ -65,6 +61,9 @@ router.get('/post/show/:id',addpostController.getAd);
 router.post('/jobseeker/apply/:ad_id',applicationController.apply);
 
 router.get('/get-application/:_id',listiningController.getapplied);
+
+router.post('/app/schedule/:_id',scheduleController.setschedule);
+router.get('/get/schedule/',scheduleController.getAllSchedulesWithJobSeekerAndApplication);
 
 
 
