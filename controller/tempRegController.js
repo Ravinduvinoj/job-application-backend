@@ -21,9 +21,6 @@ const deletetemp_acc =async (req, res) => {
         res.status(500).send({ message: 'Internal server error' });
     }
 };
-
-
-
 module.exports = {
   deletetemp_acc
 };

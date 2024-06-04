@@ -2,6 +2,7 @@
 const application = require('../models/applicationModel/applicationModel');
 const post = require('../models/advertiesmentModel/addvertiesmentModel');
 const jobseeker = require('../models/userModel/jobSeekerModel'); // Correct path
+const mongoose = require('mongoose');
 
 const getapplied = async (req, res) => {
     try {
@@ -29,6 +30,27 @@ const getapplied = async (req, res) => {
     }
   };
 
+  const getAllApplicationsByAdvertAndStatus = async (req, res) => {
+    try {
+        const { advertId } = req.params;
+
+        // Validate advertId
+        if (!mongoose.Types.ObjectId.isValid(advertId)) {
+            return res.status(400).json({ message: 'Invalid advertisement ID' });
+        }
+
+        const applications = await application.find({ advertiesment: advertId, status: { $in: ['approved', 'rejected'] } })
+            .populate('jobseeker'); // Populating jobseeker details
+
+        res.status(200).json({ applications });
+    } catch (error) {
+        console.error('Error fetching applications:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+
 module.exports = {
-  getapplied
+  getapplied,
+  getAllApplicationsByAdvertAndStatus
 };

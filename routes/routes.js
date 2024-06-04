@@ -61,10 +61,11 @@ router.get('/post/show/:id',addpostController.getAd);
 router.post('/jobseeker/apply/:ad_id',applicationController.apply);
 
 router.get('/get-application/:_id',listiningController.getapplied);
+router.get('/get/status/:advertId',listiningController.getAllApplicationsByAdvertAndStatus)
 
 router.post('/app/schedule/:_id',scheduleController.setschedule);
-router.get('/get/schedule/',scheduleController.getAllSchedulesWithJobSeekerAndApplication);
-
+router.get('/get/schedule/:login_id',scheduleController.getAllSchedulesWithJobSeekerAndApplication);
+router.put('/reject/schedule/:_id',scheduleController.rejectApplication)
 
 
 // Multer setup for file upload

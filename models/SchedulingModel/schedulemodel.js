@@ -29,6 +29,10 @@ const sheduleSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'application'
     },
+    loginID: { // Reference to the User model
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'useraccount',
+    }
   
 },
     { collection: 'schedule' })
