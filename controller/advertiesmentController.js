@@ -225,8 +225,28 @@ const deleteExpiredAdvertisements = async () => {
     console.error('Error deleting expired advertisements:', error);
   }
 };
+const AddCount = async(req,res)=>{
 
+  try {
+      const addCount = await addPost.countDocuments();
+      res.status(200).json({ count: addCount });
+  } catch (error) {
+      console.error('Error counting ad:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
 
+}
+const empComCount = async(req,res)=>{
+
+  try {
+      const postCount = await addPost.countDocuments({User:req.params._id});
+      res.status(200).json({ count: postCount });
+  } catch (error) {
+      console.error('Error counting ad', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+
+}
 
 
 module.exports = {
@@ -236,5 +256,7 @@ module.exports = {
   displayAlltemppost,
   approv_ad,
   getAd,
-  deleteExpiredAdvertisements
+  deleteExpiredAdvertisements,
+  AddCount,
+  empComCount
 }

@@ -29,6 +29,7 @@ router.get('/delete-useracc/:email', companyuserController.delete_useracc);
 router.put('/update-user/:email', companyuserController.update_user);
 router.get('/getalltempuser', companyuserController.getTempUser);
 router.post('/logout',companyuserController.logout);
+router.get('/companycount',companyuserController.companyCount)
 
 router.get('/delete-tempacc/:email',tempRegController.deletetemp_acc);
 
@@ -49,16 +50,23 @@ router.get('/getselectedmaincategory/:id', jobSubCategoryController.getSelectedM
 router.get('/add-display/:id', addpostController.displaypost);
 router.get('/displayPost', addpostController.displayAllpost);
 router.get('/post/delete/:id', addpostController.delete_post);
+router.get('/adCount', addpostController.AddCount);
+
 
 router.post('/jobseeker/register', jobseekerController.regjobseeker);
 router.post('/jobseeker/login', jobseekerController.loginjobseeker);
 router.post('/jobseeker/logout', jobseekerController.logout);
+router.get('/Jobseeker-Count', jobseekerController.SeekersCount);
+
 
 router.get('/temp/advertiesment',addpostController.displayAlltemppost);
 router.get('/temp/approve/:_id',addpostController.approv_ad);
 router.get('/post/show/:id',addpostController.getAd);
+router.get('/post/showcount/:_id',addpostController.empComCount);
 
 router.post('/jobseeker/apply/:ad_id',applicationController.apply);
+router.get('/appCount', applicationController.appCount);
+
 
 router.get('/get-application/:_id',listiningController.getapplied);
 router.get('/get/status/:advertId',listiningController.getAllApplicationsByAdvertAndStatus)
@@ -66,7 +74,7 @@ router.get('/get/status/:advertId',listiningController.getAllApplicationsByAdver
 router.post('/app/schedule/:_id',scheduleController.setschedule);
 router.get('/get/schedule/:login_id',scheduleController.getAllSchedulesWithJobSeekerAndApplication);
 router.put('/reject/schedule/:_id',scheduleController.rejectApplication)
-
+router.get('/appCountApproval/:_id', scheduleController.countApproved);
 
 // Multer setup for file upload
 const storage = multer.diskStorage({

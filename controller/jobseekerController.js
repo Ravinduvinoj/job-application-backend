@@ -82,6 +82,18 @@ console.log( req.body.email)
         })
     }
 }
+const SeekersCount=async (req,res)=>{
+
+
+    try {
+        const Count = await jobsekkerSchema.countDocuments();
+        res.status(200).json({ count: Count });
+    } catch (error) {
+        console.error('Error counting jobseekers:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
 
 const logout = (req, res) => {
     res.cookie("jwt2", "", { maxAge: 0 })
@@ -96,6 +108,7 @@ const logout = (req, res) => {
 module.exports ={
     regjobseeker,
     loginjobseeker,
-    logout
+    logout,
+    SeekersCount
 }
 

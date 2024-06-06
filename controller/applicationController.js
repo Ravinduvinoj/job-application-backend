@@ -73,3 +73,17 @@ exports.apply = async (req, res, next) => {
         }
     });
 };
+exports.appCount=async (req,res)=>{
+
+
+    try {
+        const appCount = await application.countDocuments();
+        res.status(200).json({ count: appCount });
+    } catch (error) {
+        console.error('Error counting applications:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+    
+    }
+
+

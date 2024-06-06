@@ -140,10 +140,23 @@ const rejectApplication = async (req, res) => {
 };
 
 
+const countApproved=async (req,res)=>{
+
+    try {
+console.log("sdsdsd"+req.params._id)
+        const appCount = await Schedule.countDocuments({loginID:req.params._id});
+        res.status(200).json({ count: appCount });
+    } catch (error) {
+        console.error('Error counting applications:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
 
 
 module.exports = {
     rejectApplication,
     setschedule,
-    getAllSchedulesWithJobSeekerAndApplication
+    getAllSchedulesWithJobSeekerAndApplication,
+    countApproved
 };

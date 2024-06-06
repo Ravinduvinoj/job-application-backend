@@ -34,6 +34,18 @@ const login = async (req, res) => {
  
 
 }
+const companyCount = async(req,res)=>{
+
+    try {
+        const companyCount = await User.countDocuments({userRole:'company'});
+        res.status(200).json({ count: companyCount });
+    } catch (error) {
+        console.error('Error counting companies:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
+
 
 const getAllUserAccounts = async (req, res) => {
     try {
@@ -202,5 +214,6 @@ module.exports = {
     delete_useracc,
     update_user,
     getTempUser,
-    logout
+    logout,
+    companyCount
 }
