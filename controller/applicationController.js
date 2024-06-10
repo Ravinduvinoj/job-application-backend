@@ -73,7 +73,7 @@ exports.apply = async (req, res, next) => {
         }
     });
 };
-exports.appCount=async (req,res)=>{
+exports.appCount = async (req, res) => {
 
 
     try {
@@ -83,7 +83,30 @@ exports.appCount=async (req,res)=>{
         console.error('Error counting applications:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
-    
+
+}
+exports.companyAppCount = async (req, res) => {
+
+
+    try {
+        // Assuming req.user contains the logged-in user's information
+        const userId = req.params._id;
+
+        // Find advertisements posted by the logged-in user
+        const ads = await advertisement.find({ User: userId }).select('_id');
+        console.log(ads)
+        // Extract the IDs of these advertisements
+        const adIds = ads.map(ad => ad._id);
+
+        // Count applications that are linked to these advertisements
+        const appCount = await application.countDocuments({ advertiesment: { $in: adIds } });
+
+        res.status(200).json({ count: appCount });
+    } catch (error) {
+        console.error('Error counting applications for company:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
+
+}
 
 

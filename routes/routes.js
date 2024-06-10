@@ -66,7 +66,7 @@ router.get('/post/showcount/:_id',addpostController.empComCount);
 
 router.post('/jobseeker/apply/:ad_id',applicationController.apply);
 router.get('/appCount', applicationController.appCount);
-
+router.get('/TotalappCount/:_id', applicationController.companyAppCount);
 
 router.get('/get-application/:_id',listiningController.getapplied);
 router.get('/get/status/:advertId',listiningController.getAllApplicationsByAdvertAndStatus)
