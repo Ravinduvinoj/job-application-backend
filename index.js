@@ -24,6 +24,8 @@ app.use("/api", routes)
 app.use('/Images', express.static(path.join(__dirname, 'Images')));
 app.use("/uploads", express.static("uploads"));
 const PORT = process.env.PORT || 5000;
+
+
 mongoose.connect(process.env.MONGODB_URL, {
   dbName: 'greenjobdb',
   useNewUrlParser: true,
