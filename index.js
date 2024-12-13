@@ -27,9 +27,7 @@ const PORT = process.env.PORT || 5000;
 
 
 mongoose.connect(process.env.MONGODB_URL, {
-  dbName: 'greenjobdb',
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  dbName: 'greenjobdb'
 });
 const connection = mongoose.connection;
 connection.once("open", () => {
