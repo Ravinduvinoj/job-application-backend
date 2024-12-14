@@ -14,7 +14,7 @@ exports.apply = async (req, res, next) => {
                 const ad = req.params.ad_id;
                 console.log(ad)
                 // const url = req.protocol + "://" + req.get("host");
-                const url = req.protocol + "://" + 'localhost:5000';
+                const url = req.protocol + "://" + 'greenjobsapi4-xvvhb8su.b4a.run';
                 const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
                 let status = 'pending';
                 let jobseekerid = '6640cb055c5c7522955cf414';
