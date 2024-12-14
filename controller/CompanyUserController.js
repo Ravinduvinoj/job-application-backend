@@ -25,10 +25,16 @@ const login = async (req, res) => {
             maxAge: new Date(Date.now() +24 * 60 * 60 * 1000) //for one day
         });
 
+        console.log("dsdsd",token)
+
         res.send({
             message: "successfully",
+            token: token,
+            email:user.email,
+            _id:user._id,
+            company:user.company,
             userRole: user.userRole, // usertype response
-            token: user.token
+            
         });
   
  
