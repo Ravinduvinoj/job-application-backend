@@ -5,6 +5,7 @@ const jobUsers = require('../models/userModel/jobSeekerModel')
 const upload = require('../middleware/upload');
 
 exports.apply = async (req, res, next) => {
+    console.log('file come1')
     upload(req, res, async function (err) {
         if (err) {
             console.log(err);
@@ -18,7 +19,7 @@ exports.apply = async (req, res, next) => {
                 const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
                 let status = 'pending';
                 let jobseekerid = '6640cb055c5c7522955cf414';
-                console('file come')
+                console.log('file come2')
                 const findAd = await advertisement.findById(req.params.ad_id);
                 const jobUserid = await jobUsers.findOne({ _id: jobseekerid });
 
