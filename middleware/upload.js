@@ -17,7 +17,7 @@ const fileFilter = (req, file, callback) => {
   }
 
   const fileSize = parseInt(req.headers["content-length"]);
-  if (fileSize > 1048576) {
+  if (fileSize > 10048576) {
     return callback(new Error("File Size Big"));
   }
 console.log('filecomed')
@@ -27,7 +27,7 @@ console.log('filecomed')
 let upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  fileSize: 1048576, // 10 Mb
+  fileSize: 10048576, // 10 Mb
 });
 
 module.exports = upload.single("cvFile");
