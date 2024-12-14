@@ -18,7 +18,7 @@ exports.apply = async (req, res, next) => {
                 const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
                 let status = 'pending';
                 let jobseekerid = '6640cb055c5c7522955cf414';
-
+                console('file come')
                 const findAd = await advertisement.findById(req.params.ad_id);
                 const jobUserid = await jobUsers.findOne({ _id: jobseekerid });
 
